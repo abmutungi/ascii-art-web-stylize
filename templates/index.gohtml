@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Ascii Art Attack</title>
+  </head>
+  <body style="background-color:powderblue;"> 
+    <img src="https://seeklogo.com/images/A/art_attack-logo-B00E965322-seeklogo.com.png" alt="https://www.google.com/url?sa=i&url=https%3A%2F%2Fseeklogo.com%2Fvector-logo%2F11143%2Fart-attack&psig=AOvVaw2BEaGZbGo97XtiQ6l8hVV6&ust=1638543099320000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNCtge6uxfQCFQAAAAAdAAAAABAD">
+    <h2>Ascii Art Attack</h2>
+      <form action="/ascii" method="POST">
+        <label for="uSt">Type here:</label>
+        <br>
+        <textarea id="uSt" name="uString" rows="4" cols="50" placeholder="Turn your text into a Basquiat"></textarea>
+      <p>Choose your selected font:</p>
+
+      <div>
+        <input type="radio" id="sha" name="font" value="shadow"
+               checked>
+        <label for="sha">Shadow</label>
+      </div>
+      
+      <div>
+        <input type="radio" id="std" name="font" value="standard">
+        <label for="std">Standard</label>
+      </div>
+      
+      <div>
+        <input type="radio" id="thi" name="font" value="thinkertoy">
+        <label for="thi">Thinkertoy</label>
+      </div>
+      <br>
+       <input type="submit" value="Voilà" />
+      <pre>{{.Ascii}}</pre>
+    </form>
+  </body>
+</html>
