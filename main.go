@@ -23,6 +23,7 @@ func main() {
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/ascii-art", asciiart)
+	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("/static/"))))
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -53,17 +54,17 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 	userBanner := r.FormValue("banner")
 	userString := r.FormValue("uString")
 
-	if userBanner == "" || userString == "" || strings.Contains(userString, "£") {
+	if userBanner == "" || userString == "" || strings.Contains(userString, "£") || strings.Contains(userString, "¬") {
 		http.Error(w, "400 bad request made : empty or unrecognised string!", http.StatusBadRequest)
 		return
 	}
 
-	for i := 0; i < len(userString); i++ {
-		if userString[i] < 32 && userString[i] > 126 {
-			http.Error(w, "400 bad request made: empty or unrecognised string", http.StatusBadRequest)
-			return
-		}
-	}
+	// for i := range userString {
+	// 	if userString[i] < 32 && userString[i] > 126 {
+	// 		http.Error(w, "400 bad request made: empty or unrecognised string", http.StatusBadRequest)
+	// 		return
+	// 	}
+	// }
 
 	if strings.Contains(userString, "\n") {
 		userString = strings.Replace(userString, "\r\n", "\\n", -1)
