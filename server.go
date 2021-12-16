@@ -11,7 +11,7 @@ import (
 var tpl *template.Template
 
 func init() {
-	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
+	tpl = template.Must(template.ParseGlob("templates/*.html"))
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +19,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "404 not found.", http.StatusNotFound)
 		return
 	} else {
-		tpl.ExecuteTemplate(w, "index.gohtml", nil)
+		tpl.ExecuteTemplate(w, "index.html", nil)
 	}
 }
 
@@ -127,12 +127,17 @@ func ascii(w http.ResponseWriter, r *http.Request) {
 		Ascii:  Ascii,
 	}
 
-	tpl.ExecuteTemplate(w, "index.gohtml", d)
+	tpl.ExecuteTemplate(w, "index.html", d)
 }
 
 func main() {
-	http.HandleFunc("/", index)
+
+	fs := http.FileServer(http.Dir("./templates"))
+
+	http.Handle("/", fs)
+	http.HandleFunc("/index.html", index)
 	http.HandleFunc("/ascii", ascii)
+
 
 	http.ListenAndServe(":8080", nil)
 }
