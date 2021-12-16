@@ -1,0 +1,20 @@
+body {
+  background-color: rgb(15, 66, 83);
+}
+
+.h1 {
+  color: rgb(88, 22, 22);
+  text-align: center;
+  font-size: larger;
+}
+
+p {
+  font-family: verdana;
+  font-size: 200px;
+}
+
+#sta{
+  text-align: center;
+  color: chartreuse;
+  font-size: xx-small;
+}

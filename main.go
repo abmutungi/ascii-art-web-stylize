@@ -16,14 +16,18 @@ var tpl *template.Template
 in the templates folder is parsed i.e. they all get looked through once and
 then stored in the memory ready to go when needed*/
 func init() {
-	tpl = template.Must(template.ParseGlob("templates/*gohtml"))
+	tpl = template.Must(template.ParseGlob("templates/*html"))
 }
 
 func main() {
 
+	fs := http.FileServer(http.Dir("/templates/styles"))
 	http.HandleFunc("/", index)
+	http.Handle("/styles/", fs)
+	//http.PathPrefix("/styles/").Handler(http.StripPrefix("/styles/",
+	//	http.FileServer(http.Dir("templates/styles/"))))
+	//http.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("/templates/styles/"))))
 	http.HandleFunc("/ascii-art", asciiart)
-	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("/static/"))))
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -32,7 +36,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.Error(w, "404 address not found: wrong address entered!", http.StatusNotFound)
 	} else {
-		tpl.ExecuteTemplate(w, "index.gohtml", nil)
+		tpl.ExecuteTemplate(w, "index.html", nil)
 	}
 }
 
@@ -115,7 +119,7 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		SAscii: SAscii,
 	}
 
-	tpl.ExecuteTemplate(w, "index.gohtml", d)
+	tpl.ExecuteTemplate(w, "index.html", d)
 }
 
 func SplitLines(s string) [][]byte {
