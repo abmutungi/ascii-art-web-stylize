@@ -137,6 +137,8 @@ func main() {
 	http.Handle("/", fs)
 	http.HandleFunc("/index.html", index)
 	http.HandleFunc("/ascii", ascii)
+	//http.Handle("/templates/css/", http.StripPrefix("/templates/css/", http.FileServer(http.Dir("css"))))
+
 
 
 	http.ListenAndServe(":8080", nil)
