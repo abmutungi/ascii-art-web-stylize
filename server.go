@@ -127,7 +127,7 @@ func ascii(w http.ResponseWriter, r *http.Request) {
 		Ascii:  Ascii,
 	}
 
-	tpl.ExecuteTemplate(w, "index.html", d)
+	tpl.ExecuteTemplate(w, "ascii.html", d)
 }
 
 func main() {
@@ -135,11 +135,9 @@ func main() {
 	fs := http.FileServer(http.Dir("./templates"))
 
 	http.Handle("/", fs)
+	// http.HandleFunc("/", index)
 	http.HandleFunc("/index.html", index)
 	http.HandleFunc("/ascii", ascii)
-	//http.Handle("/templates/css/", http.StripPrefix("/templates/css/", http.FileServer(http.Dir("css"))))
-
-
-
+	// http.Handle("/templates/css/", http.StripPrefix("/templates/css/", http.FileServer(http.Dir("css"))))
 	http.ListenAndServe(":8080", nil)
 }
