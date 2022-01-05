@@ -3,6 +3,23 @@ body {
   text-align: center;
 }
 
+button {
+  position: absolute;
+  top:50%;
+  right: 0;
+  width: 20px;
+  transform: translateY(-50%);
+  background-color: rgb(65, 22, 22); 
+  color: yellow; 
+  border: 2px solid #a74caf;
+
+}
+
+.dark-mode {
+  background-color: #7C99AC;
+  color: white;
+}
+
 h2 {
   color: seagreen;
   text-align: center;
@@ -39,3 +56,16 @@ p {
   font-family: "Lucida Console", "Courier New", monospace;
 
 }
+
+textarea {
+  width: 35%;
+  height: 80px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #F0ECE3;
+  font-size: 16px;
+  resize: none;
+}
+

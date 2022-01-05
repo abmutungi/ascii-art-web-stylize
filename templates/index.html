@@ -12,7 +12,8 @@
       <form action="/ascii" method="POST">
         <label for="uSt">Type here:</label>
         <br>
-        <textarea id="uSt" name="uString" rows="4" cols="50" placeholder="Turn your text into a Basquiat"></textarea>
+        <br>
+        <textarea id="uSt" name="uString" rows="4" cols="50" placeholder="Turn your text into a Basquiat..."></textarea>
       <p>Choose your selected font:</p>
 
       <div>
@@ -33,5 +34,13 @@
       <br>
        <input type="submit" value="Voilà" />
     </form>
+    <button onclick="myFunction()"> ☾ </button>
+
+    <script>
+    function myFunction() {
+    var element = document.body;
+    element.classList.toggle("dark-mode");
+}
+</script>
   </body>
 </html>
