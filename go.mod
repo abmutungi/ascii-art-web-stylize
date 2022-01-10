@@ -1,3 +1,3 @@
-module go-server
+module git.learn.01founders.co/abmutungi/ascii-art-web-stylize.git
 
-go 1.16
+go 1.13
