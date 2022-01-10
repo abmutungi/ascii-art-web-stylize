@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"html/template"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -20,12 +21,7 @@ func init() {
 }
 
 func main() {
-	fs := http.FileServer(http.Dir("./templates"))
-
-	http.Handle("/", fs)
-	http.HandleFunc("/index.html", index)
-	http.HandleFunc("/ascii-art", asciiart)
-	http.ListenAndServe(":8080", nil)
+	requests()
 }
 
 //Handler function for the index
@@ -116,9 +112,30 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		SAscii: SAscii,
 	}
 
+	f, err := os.Create("ascii-art.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err2 := f.WriteString(SAscii)
+	if err2 != nil {
+		log.Fatal(err)
+	}
 	tpl.ExecuteTemplate(w, "ascii-art.html", d)
+
 }
 
+func download(w http.ResponseWriter, r *http.Request) {
+
+	const TDir = "nsym@nsym-N56VZ/ascii-art-web-stylize/"
+
+	http.HandleFunc("/ascii-art.txt", func(res http.ResponseWriter, req *http.Request) {
+		http.ServeFile(res, req, TDir+"/ascii-art.txt")
+	})
+
+}
+
+//Function to deal with new lines in the ascii art
 func SplitLines(s string) [][]byte {
 	var count int
 
@@ -146,4 +163,14 @@ func SplitLines(s string) [][]byte {
 	}
 
 	return splitLines
+}
+
+//Function to hold all of the http requests
+func requests() {
+	fs := http.FileServer(http.Dir("./templates"))
+
+	http.Handle("/", fs)
+	http.HandleFunc("/index.html", index)
+	http.HandleFunc("/ascii-art", asciiart)
+	http.ListenAndServe(":8080", nil)
 }

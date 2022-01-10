@@ -3,11 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <title>ARTE DELLA ASCII</title>
+
 </head>
+
+
 
 <link rel="stylesheet" href="/css/mystyle.css">
 <h1>Here is your Ascii Art!</h1>
 <pre> {{.SAscii}} </pre>
 
-</body>
+<form action="/ascii-art" method="POST"></form>
+<a href="{{.SAscii}}" download></a>
+<button>Click here to download your ascii-art!!!</button>
+
+
 </html>
