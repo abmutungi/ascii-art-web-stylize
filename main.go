@@ -113,7 +113,7 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		SAscii: SAscii,
 	}
 
-	f, err := os.Create("ascii-art.pdf")
+	f, err := os.Create("ascii-art.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -132,12 +132,12 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 
 func download(w http.ResponseWriter, r *http.Request) {
 
-	f, err := os.Open("ascii-art.pdf")
+	f, err := os.Open("ascii-art.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
-	w.Header().Set("Content-Disposition", "attachment;filename=ascii-art.pdf")
-	w.Header().Set("Content-Type", "application/pdf")
+	w.Header().Set("Content-Disposition", "attachment;filename=ascii-art.txt")
+	w.Header().Set("Content-Type", "text/html")
 	w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
 	io.Copy(w, f)
 	tpl.ExecuteTemplate(w, "ascii-art.html", nil)
