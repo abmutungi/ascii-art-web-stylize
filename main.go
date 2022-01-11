@@ -9,8 +9,6 @@ import (
 	"strings"
 )
 
-var file = "ascii-art.txt"
-
 /*This var is a pointer towards template.Template that is a
 pointer to help process the html.*/
 var tpl *template.Template
@@ -123,30 +121,25 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 	if err2 != nil {
 		log.Fatal(err)
 	}
-	//const TDir = "ascii-art-web-stylize/"
 
-	w.Header().Set("Content-Disposition", "attachment; ascii-art.txt")
-	w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
-	w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
-	//io.Copy(w, r.Body)
-	// http.HandleFunc("/ascii-art.txt", func(res http.ResponseWriter, req *http.Request) {
-	// 	http.ServeFile(res, req, "/ascii-art-web-stylize//ascii-art.txt")
-	// })
+	// w.Header().Set("Content-Disposition", "attachment")
+	// w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
+	// w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
 
 	tpl.ExecuteTemplate(w, "ascii-art.html", d)
 }
 
 func download(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Disposition", "attachment; ascii-art.txt")
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Header().Set("Content-Disposition", "attachment")
+	w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
 	w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
-	//io.Copy(w, r.Body)
-	// http.HandleFunc("/ascii-art.txt", func(res http.ResponseWriter, req *http.Request) {
-	// 	http.ServeFile(res, req, TDir+"/ascii-art.txt")
-	// })
 
-	tpl.ExecuteTemplate(w, "download.html", nil)
+	if r.URL.Path != "/download" {
+		http.Error(w, "404 address not found: wrong address entered!", http.StatusNotFound)
+	} else {
+		tpl.ExecuteTemplate(w, "download.html", nil)
+	}
 }
 
 //Function to hold all of the http requests
@@ -156,9 +149,7 @@ func requests() {
 	http.Handle("/", fs)
 	http.HandleFunc("/index.html", index)
 	http.HandleFunc("/ascii-art", asciiart)
-
-	//http.HandleFunc("ascii-art", download)
-	//http.HandleFunc("/download", download)
+	http.HandleFunc("/download", download)
 	http.ListenAndServe(":8080", nil)
 }
 
