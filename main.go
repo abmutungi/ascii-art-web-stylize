@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -112,7 +113,7 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		SAscii: SAscii,
 	}
 
-	f, err := os.Create("ascii-art.txt")
+	f, err := os.Create("ascii-art.pdf")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -131,15 +132,16 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 
 func download(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Disposition", "attachment")
-	w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
-	w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
-
-	if r.URL.Path != "/download" {
-		http.Error(w, "404 address not found: wrong address entered!", http.StatusNotFound)
-	} else {
-		tpl.ExecuteTemplate(w, "download.html", nil)
+	f, err := os.Open("ascii-art.pdf")
+	if err != nil {
+		log.Fatal(err)
 	}
+	w.Header().Set("Content-Disposition", "attachment;filename=ascii-art.pdf")
+	w.Header().Set("Content-Type", "application/pdf")
+	w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
+	io.Copy(w, f)
+	tpl.ExecuteTemplate(w, "ascii-art.html", nil)
+
 }
 
 //Function to hold all of the http requests
