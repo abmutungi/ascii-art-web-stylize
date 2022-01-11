@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"html/template"
-	"io"
 	"log"
 	"net/http"
 	"os"
@@ -124,30 +123,28 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 	if err2 != nil {
 		log.Fatal(err)
 	}
-	const TDir = "ascii-art-web-stylize/"
+	//const TDir = "ascii-art-web-stylize/"
 
 	w.Header().Set("Content-Disposition", "attachment; ascii-art.txt")
 	w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
 	w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
 	//io.Copy(w, r.Body)
-	http.HandleFunc("/ascii-art.txt", func(res http.ResponseWriter, req *http.Request) {
-		http.ServeFile(res, req, "/ascii-art-web-stylize//ascii-art.txt")
-	})
+	// http.HandleFunc("/ascii-art.txt", func(res http.ResponseWriter, req *http.Request) {
+	// 	http.ServeFile(res, req, "/ascii-art-web-stylize//ascii-art.txt")
+	// })
 
 	tpl.ExecuteTemplate(w, "ascii-art.html", d)
 }
 
 func download(w http.ResponseWriter, r *http.Request) {
 
-	const TDir = "/nsym@nsym-N56VZ/ascii-art-web-stylize/"
-
 	w.Header().Set("Content-Disposition", "attachment; ascii-art.txt")
-	w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
-	io.Copy(w, r.Body)
-	http.HandleFunc("/ascii-art.txt", func(res http.ResponseWriter, req *http.Request) {
-		http.ServeFile(res, req, TDir+"/ascii-art.txt")
-	})
+	//io.Copy(w, r.Body)
+	// http.HandleFunc("/ascii-art.txt", func(res http.ResponseWriter, req *http.Request) {
+	// 	http.ServeFile(res, req, TDir+"/ascii-art.txt")
+	// })
 
 	tpl.ExecuteTemplate(w, "download.html", nil)
 }
@@ -160,7 +157,7 @@ func requests() {
 	http.HandleFunc("/index.html", index)
 	http.HandleFunc("/ascii-art", asciiart)
 
-	http.HandleFunc("ascii-art", download)
+	//http.HandleFunc("ascii-art", download)
 	//http.HandleFunc("/download", download)
 	http.ListenAndServe(":8080", nil)
 }
