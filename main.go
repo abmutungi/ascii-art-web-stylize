@@ -123,10 +123,6 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	// w.Header().Set("Content-Disposition", "attachment")
-	// w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
-	// w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
-
 	tpl.ExecuteTemplate(w, "ascii-art.html", d)
 }
 
@@ -140,7 +136,7 @@ func download(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
 	io.Copy(w, f)
-	tpl.ExecuteTemplate(w, "ascii-art.html", nil)
+	//tpl.ExecuteTemplate(w, "ascii-art.html", nil)
 
 }
 
