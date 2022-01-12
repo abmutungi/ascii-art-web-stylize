@@ -136,7 +136,6 @@ func download(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
 	io.Copy(w, f)
-	//tpl.ExecuteTemplate(w, "ascii-art.html", nil)
 
 }
 
