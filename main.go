@@ -21,10 +21,6 @@ func init() {
 	tpl = template.Must(template.ParseGlob("templates/*html"))
 }
 
-func main() {
-	requests()
-}
-
 //Handler function for the index
 func index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
@@ -49,8 +45,8 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userBanner := r.FormValue("banner")
-	userString := r.FormValue("uString")
+	userBanner := r.FormValue("font")
+	var userString string = r.FormValue("uString")
 
 	if userBanner == "" || userString == "" || strings.Contains(userString, "£") {
 		http.Error(w, "400 bad request made : empty or unrecognised string!", http.StatusBadRequest)
@@ -140,7 +136,7 @@ func download(w http.ResponseWriter, r *http.Request) {
 }
 
 //Function to hold all of the http requests
-func requests() {
+func main() {
 	fs := http.FileServer(http.Dir("./templates"))
 
 	http.Handle("/", fs)

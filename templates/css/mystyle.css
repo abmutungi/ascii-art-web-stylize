@@ -1,43 +1,10 @@
 body {
-  background-color:rgb(168, 197, 226) ;
-  background: #1C6EA4;
-  background: -moz-linear-gradient(left, #1C6EA4 0%, #2388CB 48%, #144E75 100%);
-  background: -webkit-linear-gradient(left, #1C6EA4 0%, #2388CB 48%, #144E75 100%);
-  background: linear-gradient(to right, #1C6EA4 0%, #2388CB 48%, #144E75 100%);
+  background-color:#F5EEDC ;
   text-align: center;
-  
-  }
-  
-  h1{
-  color: darkgreen;
+}
+
+h2{
+  color: deeppink;
+  text-align: center;
   font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  }
-  
-  p{
-  color: darkgreen;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: xx-large;
-  
-  }
-  
-  label{
-  color: darkgreen;
-  font-family: monospace;
-  font-size: xx-large;
-  }
-  
-  textarea{
-  border: 16px ridge rgba(147,164,132,0.89);
-  }
-  
-  button{
-  background-color: deeppink;
-  }
-  
-  button:hover{
-  background-color: rgb(0, 255, 21);
-  }
-  
-  input:active{
-  background-color: violet;
-  }
+}
