@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -132,9 +133,16 @@ func download(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer f.Close()
+
+	file, _ := f.Stat()
+	fsize := file.Size()
+
+	sfSize := strconv.Itoa(int(fsize))
+
 	w.Header().Set("Content-Disposition", "attachment;filename=ascii-art.txt")
 	w.Header().Set("Content-Type", "text/html")
-	w.Header().Set("Content-Length", r.Header.Get("Content-Length"))
+	w.Header().Set("Content-Length", sfSize)
 	io.Copy(w, f)
 
 }
