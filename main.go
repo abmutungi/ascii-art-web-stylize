@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -54,8 +53,8 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	userBanner := r.FormValue("banner")
 	userString := r.FormValue("uString")
-	userFormat := r.FormValue("format")
-	fmt.Println(userFormat)
+	//userFormat := r.FormValue("format")
+	//fmt.Println(userFormat)
 
 	if userBanner == "" || userString == "" || strings.Contains(userString, "£") {
 		http.Error(w, "400 bad request made : empty or unrecognised string!", http.StatusBadRequest)
@@ -118,7 +117,7 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		SAscii: SAscii,
 	}
 
-	f, err := os.Create("ascii-art." + userFormat)
+	f, err := os.Create("ascii-art.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -126,6 +125,16 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 	_, err2 := f.WriteString(SAscii)
 	if err2 != nil {
 		log.Fatal(err)
+	}
+
+	fp, err := os.Create("ascii-art.doc")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err3 := fp.WriteString(SAscii)
+	if err2 != nil {
+		log.Fatal(err3)
 	}
 
 	tpl.ExecuteTemplate(w, "ascii-art.html", d)
@@ -147,7 +156,7 @@ func download(w http.ResponseWriter, r *http.Request) {
 
 	sfSize := strconv.Itoa(int(fsize))
 
-	w.Header().Set("Content-Disposition", "attachment;filename=ascii-art"+userFormat)
+	w.Header().Set("Content-Disposition", "attachment;filename=ascii-art."+userFormat)
 	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("Content-Length", sfSize)
 	io.Copy(w, f)
