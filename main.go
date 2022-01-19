@@ -50,11 +50,9 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	r.ParseForm()
+	//r.ParseForm()
 	userBanner := r.FormValue("banner")
 	userString := r.FormValue("uString")
-	//userFormat := r.FormValue("format")
-	//fmt.Println(userFormat)
 
 	if userBanner == "" || userString == "" || strings.Contains(userString, "£") {
 		http.Error(w, "400 bad request made : empty or unrecognised string!", http.StatusBadRequest)
@@ -127,14 +125,34 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	fp, err := os.Create("ascii-art.doc")
+	fd, err := os.Create("ascii-art.doc")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_, err3 := fp.WriteString(SAscii)
+	_, err3 := fd.WriteString(SAscii)
 	if err2 != nil {
 		log.Fatal(err3)
+	}
+
+	fp, err := os.Create("ascii-art.pdf")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err4 := fp.WriteString(SAscii)
+	if err2 != nil {
+		log.Fatal(err4)
+	}
+
+	fh, err := os.Create("ascii-art.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err5 := fh.WriteString(SAscii)
+	if err2 != nil {
+		log.Fatal(err5)
 	}
 
 	tpl.ExecuteTemplate(w, "ascii-art.html", d)
@@ -142,7 +160,7 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 
 func download(w http.ResponseWriter, r *http.Request) {
 
-	r.ParseForm()
+	//r.ParseForm()
 	userFormat := r.FormValue("format")
 
 	f, err := os.Open("ascii-art." + userFormat)
@@ -157,7 +175,7 @@ func download(w http.ResponseWriter, r *http.Request) {
 	sfSize := strconv.Itoa(int(fsize))
 
 	w.Header().Set("Content-Disposition", "attachment;filename=ascii-art."+userFormat)
-	w.Header().Set("Content-Type", "text/plain")
+	w.Header().Get("Content-Type")
 	w.Header().Set("Content-Length", sfSize)
 	io.Copy(w, f)
 
