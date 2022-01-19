@@ -13,13 +13,21 @@
 <pre> {{.SAscii}} </pre>
 
 
-<!-- <form action="/download" method="POST"> -->
+<form action="/download" method="POST">
     
-    
+    <div>
+<input type="radio" id="txt" name="format" value="txt"
+checked>
+<label for="txt">Text</label>
+</div>
+<div>
+<input type="radio" id="doc" name="format" value="txt">
+<label for="doc">Doc</label>
+</div>
 
    
     <button onclick="location.href='/download'" type="button">Download</button>
-<!-- </form> -->
+</form>
 
 </body>
 </html>
