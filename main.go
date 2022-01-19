@@ -51,6 +51,7 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	r.ParseForm()
 	userBanner := r.FormValue("banner")
 	userString := r.FormValue("uString")
 	userFormat := r.FormValue("format")
@@ -127,38 +128,31 @@ func asciiart(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	file1, _ := f.Stat()
-	fsize := file1.Size()
+	tpl.ExecuteTemplate(w, "ascii-art.html", d)
+}
+
+func download(w http.ResponseWriter, r *http.Request) {
+
+	r.ParseForm()
+	userFormat := r.FormValue("format")
+
+	f, err := os.Open("ascii-art." + userFormat)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	file, _ := f.Stat()
+	fsize := file.Size()
 
 	sfSize := strconv.Itoa(int(fsize))
 
 	w.Header().Set("Content-Disposition", "attachment;filename=ascii-art"+userFormat)
-	w.Header().Get("Content-Type")
+	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("Content-Length", sfSize)
 	io.Copy(w, f)
 
-	tpl.ExecuteTemplate(w, "ascii-art.html", d)
 }
-
-// func download(w http.ResponseWriter, r *http.Request) {
-
-// 	f, err := os.Open("ascii-art.")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	defer f.Close()
-
-// 	file, _ := f.Stat()
-// 	fsize := file.Size()
-
-// 	sfSize := strconv.Itoa(int(fsize))
-
-// 	w.Header().Set("Content-Disposition", "attachment;filename=ascii-art")
-// 	w.Header().Get("Content-Type")
-// 	w.Header().Set("Content-Length", sfSize)
-// 	io.Copy(w, f)
-
-// }
 
 //Function to hold all of the http requests
 func requests() {
@@ -167,7 +161,7 @@ func requests() {
 	http.Handle("/", fs)
 	http.HandleFunc("/index.html", index)
 	http.HandleFunc("/ascii-art", asciiart)
-	//http.HandleFunc("/download", download)
+	http.HandleFunc("/download", download)
 	http.ListenAndServe(":8080", nil)
 }
 
